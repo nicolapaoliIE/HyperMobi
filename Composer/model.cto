@@ -1,0 +1,95 @@
+/**
+ * Sample business network definition.
+ */
+namespace org.acme.hypermobi
+
+enum TransportObjectType {
+	o Bike
+    o Car
+    o Scooter
+    o Bus
+}
+
+abstract asset TransportObject identified by transportObjectId{
+  o String transportObjectId
+  o TransportObjectType type
+  o String name
+  o Double price
+  o Boolean occupied default=false
+  o Double balance default=0.0
+  --> Provider owner
+  --> User lastOccupant optional
+}
+
+asset Bike extends TransportObject{  
+ }
+asset Car extends TransportObject{
+ }
+asset Scooter extends TransportObject{  
+ }
+asset Bus extends TransportObject{  
+ }
+  
+
+// participants
+abstract participant Account identified by AccountId{
+  o String AccountId
+  o Double balance default=10.0
+}
+
+abstract participant Provider extends Account {
+}
+
+participant Company extends Provider{
+  o String name
+}
+participant Person extends Provider{
+  o String name
+}
+
+participant User identified by userId {
+  o String userId
+  o String givenName
+  o String lastName
+  o String DateOfBirth
+  o Double balance
+  --> DriverLicense driverLicense optional
+  --> IdCard idCard optional
+}
+
+asset DriverLicense identified by licenseId {
+  o String licenseId
+  o String officialId
+}
+
+asset IdCard identified by IdCardId {
+  o String IdCardId
+  o String officialId
+}
+
+
+transaction setPrice {
+  o Double newPrice
+  --> Bike TO
+}
+
+event setPriceEvent {
+--> Bike TO
+  o Double oldPrice
+  o Double newPrice
+}
+  
+transaction rentABike {
+ o Double miles
+ --> Bike TO
+ --> User user
+}
+  
+event rentABikeEvent {
+  o Double oldBalanceBike
+  o Double oldBalanceUser
+  o Double balanceBike
+  o Double balanceUser
+  --> Bike TO
+  --> User user    
+}

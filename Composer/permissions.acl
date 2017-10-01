@@ -1,0 +1,27 @@
+/**
+ * All Access
+ */
+rule EverybodyCanReadEverything {
+    description: "Allow all participants all access”
+    participant: "org.acme.hypermobi.*"
+    operation: ALL
+    resource: "org.acme.hypermobi.*"
+    action: ALLOW
+}
+
+rule EverybodyCanSubmitTransactions {
+    description: "Allow all participants to submit transactions"
+    participant: "org.acme.hypermobi.*"
+    operation: CREATE
+    resource: "org.acme.hypermobi.*"
+    action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
